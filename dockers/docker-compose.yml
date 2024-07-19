@@ -1,0 +1,22 @@
+name: mrancel-escrito2
+
+services:
+  db:
+    build:
+      context: ./mysql-db
+    container_name: mrancel-escrito2
+
+    # restart: on-failure
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "php1234"
+      TZ: America/Montevideo
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/start.sql
+      - mrancel-escrito2-db-volume:/var/lib/mysql
+
+
+volumes:
+  mrancel-escrito2-db-volume: {}
+  
