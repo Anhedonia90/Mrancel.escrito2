@@ -14,6 +14,6 @@ class PersonaController extends Controller
         $persona->apellido = $request->apellido;
         $persona->telefono = $request->telefono;
         $persona->save();
-        return response()->json([], 201);
+        return $persona;
     }
 }
