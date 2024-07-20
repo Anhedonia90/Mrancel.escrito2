@@ -61,4 +61,26 @@ class PersonaTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonFragment(["response" => "La persona con el ID $persona[id] ha sido dado de baja"]);
     }
+    public function test_listar_personas()
+    {
+        $personaInfo = [
+            "nombre" => $this->faker->name,
+            "apellido" => $this->faker->lastName,
+            "telefono" => $this->faker->phoneNumber,
+        ];
+
+        Persona::create($personaInfo);
+        Persona::create($personaInfo);
+
+        $response = $this->get("/api/listar");
+
+        $response->assertStatus(200);
+
+        
+    }
+    public function test_lista_vacia()
+    {
+        $response = $this->get("/api/listar");
+        $response -> assertStatus(404);
+    }
 }

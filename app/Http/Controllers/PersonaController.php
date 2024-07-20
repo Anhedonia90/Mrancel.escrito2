@@ -9,8 +9,7 @@ class PersonaController extends Controller
 {
     public function alta(Request $request)
     {
-        if($request->post("nombre") && $request->post("apellido") && $request->post("telefono") )
-        {
+        if ($request->post("nombre") && $request->post("apellido") && $request->post("telefono")) {
             $persona = new Persona();
             $persona->nombre = $request->nombre;
             $persona->apellido = $request->apellido;
@@ -18,14 +17,19 @@ class PersonaController extends Controller
             $persona->save();
             return $persona;
         }
-        return response() -> json([],400);
+        return response()->json([], 400);
     }
 
-    public function baja (Request $request, $id){
+    public function baja(Request $request, $id)
+    {
         $persona = Persona::findOrFail($id);
-        $persona -> delete();
+        $persona->delete();
 
-        return [ "response" => "La persona con el ID $id ha sido dado de baja"];
+        return ["response" => "La persona con el ID $id ha sido dado de baja"];
     }
 
+    public function listar()
+    {
+        return Persona::all();
+    }
 }
