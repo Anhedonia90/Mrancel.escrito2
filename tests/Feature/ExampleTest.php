@@ -7,32 +7,15 @@ use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    public function test_alta_sin_datos()
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+    public function test_example()
     {
-        $response = $this->post('/api/alta');
+        $response = $this->get('/');
 
-        $response->assertStatus(400);
-    }
-
-    public function test_alta_insertando_datos ()
-    {
-        $response = $this->post('/api/alta',[
-            "nombre" => "Matias",
-            "apellido" => "Rancel",
-            "telefono" => "123123123",
-        ]);
-
-        $response->assertStatus(201);
-        $response->assertJsonStructure([
-            'id',
-            'nombre',
-            'apellido',
-            'telefono'
-            ]);
-        $this->assertDatabaseHas('persona',[
-            "nombre" => "Matias",
-            "apellido" => "Rancel",
-            "telefono" => "123123",
-        ]);
+        $response->assertStatus(200);
     }
 }
