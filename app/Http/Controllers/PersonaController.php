@@ -32,4 +32,8 @@ class PersonaController extends Controller
     {
         return Persona::all();
     }
+    public function buscar($id)
+    {
+        return Persona::findOrFail($id);
+    }
 }

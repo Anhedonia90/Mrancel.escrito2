@@ -75,12 +75,28 @@ class PersonaTest extends TestCase
         $response = $this->get("/api/listar");
 
         $response->assertStatus(200);
+    }
 
+    public  function test_buscar_persona()
+    {
+
+        $personaInfo = [
+            "nombre" => $this->faker->name,
+            "apellido" => $this->faker->lastName,
+            "telefono" => $this->faker->phoneNumber,
+        ];
+
+        $persona = Persona::create($personaInfo);
+
+        $response = $this->get("/api/buscar/$persona[id]");
+        $response->assertStatus(200);
+        $response->assertJsonFragment($personaInfo);
+    }
+    public  function test_buscar_persona_noexiste()
+    {
+        $response = $this->get("/api/buscar/99999999999");
+        $response->assertStatus(404);
         
     }
-    public function test_lista_vacia()
-    {
-        $response = $this->get("/api/listar");
-        $response -> assertStatus(404);
-    }
+
 }
