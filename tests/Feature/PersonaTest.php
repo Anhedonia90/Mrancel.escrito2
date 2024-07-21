@@ -92,11 +92,51 @@ class PersonaTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonFragment($personaInfo);
     }
-    public  function test_buscar_persona_noexiste()
+    public function test_buscar_persona_noexiste()
     {
         $response = $this->get("/api/buscar/99999999999");
         $response->assertStatus(404);
-        
     }
+    public function test_modificar_persona()
+    {
+        $personaInfo = [
+            "nombre" => $this->faker->name,
+            "apellido" => $this->faker->lastName,
+            "telefono" => $this->faker->phoneNumber,
+        ];
 
+        $persona = Persona::create($personaInfo);
+
+        $response = $this->put("/api/modificar/$persona[id]", [
+            'nombre' => "Hoshi",
+            'apellido' => "Nagakiba",
+            'telefono' => "16021990"
+        ]);
+        $response->assertStatus(200);
+        $response->assertJson([
+            'nombre' => "Hoshi",
+            'apellido' => "Nagakiba",
+            'telefono' => "16021990"
+        ]);
+    }
+    public function test_modificar_persona_no_existente()
+    {
+        $response = $this->put("/api/modificar/99999999999");
+
+        $response->assertStatus(404);
+    }
+    public function test_modificar_persona_sin_datos()
+    {
+        $personaInfo = [
+            "nombre" => $this->faker->name,
+            "apellido" => $this->faker->lastName,
+            "telefono" => $this->faker->phoneNumber,
+        ];
+
+        $persona = Persona::create($personaInfo);
+
+        $response = $this->put("/api/modificar/$persona[id]", []);
+
+        $response->assertStatus(400);
+    }
 }
